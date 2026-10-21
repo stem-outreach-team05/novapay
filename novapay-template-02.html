@@ -22,7 +22,15 @@
       --radius: 24px;
       --shadow: 0 8px 0 rgba(43, 27, 77, 0.12);
       --pattern: none;
+      --track: #eee;
+      --tint: transparent;
     }
+
+    /* ── LIGHT THEMES (surface tokens; independent of the character themes below) ── */
+    body[data-light="light-default"]       { --card:#ffffff; --ink:#2b1b4d; --track:#eeeeee; --tint:transparent; }
+    body[data-light="light-warm"]          { --card:#fffaf0; --ink:#3b2314; --track:#f5e6d0; --tint:rgba(255,190,110,.28); }
+    body[data-light="light-cool"]          { --card:#f4faff; --ink:#12304d; --track:#dcebf7; --tint:rgba(120,190,255,.28); }
+    body[data-light="light-soft-contrast"] { --card:#fbfbfd; --ink:#1a1a2e; --track:#e4e4ec; --tint:rgba(240,240,248,.55); }
 
     /* ── THEMES ── */
     body[data-theme="blocks"]  { --c1:#e11d48; --c2:#facc15; --c3:#2563eb; --bg-a:#fde047; --bg-b:#f87171; }
@@ -36,7 +44,7 @@
     body {
       font-family: 'Nunito', system-ui, sans-serif;
       background-color: var(--bg-a);
-      background-image: var(--pattern), linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 100%);
+      background-image: linear-gradient(var(--tint), var(--tint)), var(--pattern), linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 100%);
       background-attachment: fixed;
       color: var(--ink);
       min-height: 100vh;
@@ -109,15 +117,16 @@
     /* ── THEME PICKER ── */
     .themes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
     .theme {
-      border: 3px solid var(--ink); background: #fff; border-radius: 18px;
+      border: 3px solid var(--ink); background: var(--card); border-radius: 18px;
       padding: 10px 4px; font-weight: 800; font-size: .8rem; min-height: 72px;
       display: grid; gap: 2px; place-items: center; color: var(--ink);
     }
     .theme .e { font-size: 1.8rem; }
+    .lights { grid-template-columns: repeat(4, 1fr); }
     .theme[aria-pressed="true"] { background: var(--c3); transform: scale(1.06); }
 
     /* ── GOALS / PROGRESS ── */
-    .bar { height: 24px; background: #eee; border: 3px solid var(--ink); border-radius: 999px; overflow: hidden; }
+    .bar { height: 24px; background: var(--track); border: 3px solid var(--ink); border-radius: 999px; overflow: hidden; }
     .bar > span {
       display: block; height: 100%; width: 0;
       background: repeating-linear-gradient(45deg, var(--c4), var(--c4) 12px, #4ade80 12px, #4ade80 24px);
@@ -131,7 +140,7 @@
     .lessons { display: grid; gap: 10px; }
     .lesson {
       display: flex; gap: 12px; align-items: center; text-align: left; width: 100%;
-      background: #fff; border: 3px solid var(--ink); border-radius: 18px; padding: 12px;
+      background: var(--card); border: 3px solid var(--ink); border-radius: 18px; padding: 12px;
       min-height: 64px; font-weight: 800; font-size: 1rem; color: var(--ink);
     }
     .lesson .ico { font-size: 2rem; }
@@ -151,7 +160,7 @@
     /* ── NAV ── */
     .nav {
       position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-around;
-      background: #fff; border-top: 3px solid var(--ink); padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+      background: var(--card); border-top: 3px solid var(--ink); padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
       z-index: 50;
     }
     .nav a {
@@ -168,7 +177,7 @@
     }
     .backdrop.open { display: flex; }
     .modal {
-      background: #fff; border: 3px solid var(--ink); border-radius: var(--radius);
+      background: var(--card); border: 3px solid var(--ink); border-radius: var(--radius);
       width: min(520px, 100%); max-height: 90vh; overflow: auto; padding: 18px;
     }
     .modal h2 { color: var(--c1); margin-bottom: 8px; }
@@ -176,7 +185,7 @@
     .field label { display: block; font-weight: 800; margin-bottom: 6px; }
     .field input, .field select {
       width: 100%; border: 3px solid var(--ink); border-radius: 14px; padding: 12px;
-      font: inherit; font-weight: 700; min-height: 48px; background: #fff; color: var(--ink);
+      font: inherit; font-weight: 700; min-height: 48px; background: var(--card); color: var(--ink);
     }
     .quiz-opt { display: block; width: 100%; margin: 8px 0; text-align: left; }
     .msg { margin-top: 10px; font-weight: 800; padding: 10px; border-radius: 12px; display: none; }
@@ -205,7 +214,7 @@
     @keyframes popout { from { transform: scale(0) translateY(120px) rotate(-20deg); } to { transform: scale(1) translateY(0) rotate(0); } }
     @keyframes wiggle { 50% { transform: rotate(8deg) scale(1.05); } }
     .bubble {
-      position: relative; background: #fff; border: 4px solid var(--ink); border-radius: 28px;
+      position: relative; background: var(--card); border: 4px solid var(--ink); border-radius: 28px;
       padding: 16px 22px; max-width: 420px; margin-top: 8px;
       font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 1.7rem; color: var(--c1);
       animation: popin .5s .5s both;
@@ -227,7 +236,7 @@
     /* ── SUPERSAVING SUPERHERO ── */
     .hero-btn {
       display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
-      background: #fff; color: var(--ink); border: 3px solid var(--ink); border-radius: 18px;
+      background: var(--card); color: var(--ink); border: 3px solid var(--ink); border-radius: 18px;
       padding: 10px 14px; min-height: 72px; font-weight: 800; font-size: 1.05rem;
       box-shadow: 0 4px 0 var(--ink); margin-bottom: 14px;
     }
@@ -267,7 +276,7 @@
       background: var(--ink); color: #fff; border-radius: 14px; padding: 10px 14px; margin: 10px 0;
       font-weight: 800; font-size: 1.1rem; min-height: 4.2em; display: flex; align-items: center;
     }
-    .vbar { height: 14px; background: #eee; border: 3px solid var(--ink); border-radius: 999px; overflow: hidden; }
+    .vbar { height: 14px; background: var(--track); border: 3px solid var(--ink); border-radius: 999px; overflow: hidden; }
     .vbar > span { display: block; height: 100%; width: 0; background: var(--c1); transition: width .2s linear; }
     .vctl { margin-top: 12px; }
     .vctl .btn { flex: 1 1 auto; }
@@ -275,6 +284,7 @@
 
     @media (max-width: 520px) {
       .themes { grid-template-columns: repeat(3, 1fr); }
+      .lights { grid-template-columns: repeat(2, 1fr); }
       .hero .big { font-size: 2.5rem; }
       .hero .mascot { font-size: 3.2rem; }
       .row .btn { flex: 1 1 100%; }
@@ -283,7 +293,7 @@
     }
   </style>
 </head>
-<body data-theme="blocks">
+<body data-theme="blocks" data-light="light-default">
   <div class="app">
 
     <header class="top">
@@ -306,6 +316,13 @@
         <button class="theme" type="button" data-theme="princess" data-emoji="👸" aria-pressed="false"><span class="e">👸</span>Princess</button>
         <button class="theme" type="button" data-theme="dogs"     data-emoji="🐶" aria-pressed="false"><span class="e">🐶</span>Dogs</button>
         <button class="theme" type="button" data-theme="animals"  data-emoji="🦁" aria-pressed="false"><span class="e">🦁</span>Animals</button>
+      </div>
+      <h2 id="light-h" style="margin-top:14px">☀️ Pick your light</h2>
+      <div class="themes lights" id="light-list" role="group" aria-labelledby="light-h">
+        <button class="theme" type="button" data-light="light-default"       data-label="Default"       aria-pressed="true"><span class="e">⚪</span>Default</button>
+        <button class="theme" type="button" data-light="light-warm"          data-label="Warm"          aria-pressed="false"><span class="e">🌅</span>Warm</button>
+        <button class="theme" type="button" data-light="light-cool"          data-label="Cool"          aria-pressed="false"><span class="e">🧊</span>Cool</button>
+        <button class="theme" type="button" data-light="light-soft-contrast" data-label="Soft contrast" aria-pressed="false"><span class="e">🌓</span>Soft contrast</button>
       </div>
     </section>
 
@@ -822,9 +839,29 @@
       document.body.dataset.theme = state.theme;
       $('mascot').textContent = btn.dataset.emoji;
       applyPattern(state.theme);
-      document.querySelectorAll('.theme').forEach(t => t.setAttribute('aria-pressed', t === btn));
+      document.querySelectorAll('#theme-list .theme').forEach(t => t.setAttribute('aria-pressed', t === btn));
       toast('Theme changed! ' + btn.dataset.emoji);
     });
+
+    /* ── Light themes (persisted) ── */
+    const LIGHTS = ['light-default', 'light-warm', 'light-cool', 'light-soft-contrast'];
+    function applyLight(name) {
+      if (!LIGHTS.includes(name)) name = 'light-default';
+      document.body.dataset.light = name;
+      document.querySelectorAll('#light-list .theme').forEach(b =>
+        b.setAttribute('aria-pressed', b.dataset.light === name));
+      return name;
+    }
+    $('light-list').addEventListener('click', e => {
+      const btn = e.target.closest('.theme');
+      if (!btn) return;
+      const name = applyLight(btn.dataset.light);
+      try { localStorage.setItem('novapay-t2-light', name); } catch (err) {}
+      toast(btn.dataset.label + ' light on! ☀️');
+    });
+    let savedLight = null;
+    try { savedLight = localStorage.getItem('novapay-t2-light'); } catch (err) {}
+    applyLight(savedLight);
 
     /* ── Saving ── */
     document.querySelectorAll('[data-save]').forEach(b => b.addEventListener('click', () => {
