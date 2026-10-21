@@ -472,7 +472,7 @@
         </div>
       </div>
 
-      <button class="btn" onlick="makeWithdrawal()">Withdraw</button>
+      <button class="btn" onclick="makeWithdrawal()">Withdraw</button>
 
       <!-- MAKEOVER? Do these messages work for someone who can't see colour? -->
       <div class="alert alert-ok"  id="wd-success"></div>
@@ -528,7 +528,7 @@
       balance = balance + amount;
 
       // Show the new balance on the hero card
-      document.getElementById("balence-display").textContent =
+      document.getElementById("balance-display").textContent =
         "£" + balance.toFixed(2);
 
       successEl.style.display  = "block";
