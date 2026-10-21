@@ -223,6 +223,56 @@
     }
     @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
+
+    /* ── SUPERSAVING SUPERHERO ── */
+    .hero-btn {
+      display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+      background: #fff; color: var(--ink); border: 3px solid var(--ink); border-radius: 18px;
+      padding: 10px 14px; min-height: 72px; font-weight: 800; font-size: 1.05rem;
+      box-shadow: 0 4px 0 var(--ink); margin-bottom: 14px;
+    }
+    .hero-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+    .hero-btn:focus-visible, .btn:focus-visible { outline: 4px solid var(--ink); outline-offset: 2px; }
+    .hero-btn .sh { width: 56px; height: 64px; flex: none; }
+    .sh { display: block; overflow: visible; }
+    .sh .sh-wave { transform-origin: 148px 128px; animation: shwave 1.6s ease-in-out infinite; }
+    .sh .sh-mouth { transform-box: fill-box; transform-origin: center; }
+    .sh.talking .sh-mouth { animation: shtalk .35s ease-in-out infinite; }
+    .sh.bob { animation: shbob 2s ease-in-out infinite; }
+    @keyframes shwave { 50% { transform: rotate(-18deg); } }
+    @keyframes shtalk { 50% { transform: scaleY(.3); } }
+    @keyframes shbob { 50% { transform: translateY(-8px); } }
+    @media (prefers-reduced-motion: reduce) {
+      .sh, .sh * { animation: none !important; }
+      .sh.talking .sh-mouth { transform: scaleY(.6); }
+    }
+    .hero-modal { width: min(560px, 100%); }
+    .stage {
+      position: relative; border: 3px solid var(--ink); border-radius: 18px; overflow: hidden;
+      background: linear-gradient(180deg, #bae6fd, #e0f2fe 70%, #bbf7d0); aspect-ratio: 16 / 10;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+    .stage video { width: 100%; height: 100%; background: #000; }
+    .stage .sh-big { width: 36%; max-height: 92%; margin-bottom: 4px; }
+    .stage .props {
+      position: absolute; right: 8px; top: 8px; bottom: 8px; width: 44%;
+      display: grid; place-items: center; font-size: clamp(2.4rem, 12vw, 4.5rem); text-align: center;
+      line-height: 1.1; animation: popin .5s both;
+    }
+    .stage .scene-no {
+      position: absolute; left: 8px; top: 8px; background: var(--ink); color: #fff;
+      padding: 4px 10px; border-radius: 999px; font-weight: 800; font-size: .85rem;
+    }
+    .caption {
+      background: var(--ink); color: #fff; border-radius: 14px; padding: 10px 14px; margin: 10px 0;
+      font-weight: 800; font-size: 1.1rem; min-height: 4.2em; display: flex; align-items: center;
+    }
+    .vbar { height: 14px; background: #eee; border: 3px solid var(--ink); border-radius: 999px; overflow: hidden; }
+    .vbar > span { display: block; height: 100%; width: 0; background: var(--c1); transition: width .2s linear; }
+    .vctl { margin-top: 12px; }
+    .vctl .btn { flex: 1 1 auto; }
+    @media (prefers-reduced-motion: reduce) { .stage .props { animation: none; } }
+
     @media (max-width: 520px) {
       .themes { grid-template-columns: repeat(3, 1fr); }
       .hero .big { font-size: 2.5rem; }
@@ -282,6 +332,10 @@
     <section class="card" id="learn" aria-labelledby="learn-h">
       <h2 id="learn-h">📚 Money School</h2>
       <p class="hint">Finish lessons to win stars! ⭐ <span class="stars" id="stars" aria-live="polite">☆☆☆☆</span></p>
+      <button class="hero-btn" type="button" id="open-hero" aria-label="Saving Tips with Supersaving Superhero. Opens a video.">
+        <span class="sh-slot" data-hero="sh" aria-hidden="true"></span>
+        <span>🦸 Saving Tips with Supersaving Superhero<small style="display:block;font-weight:700">Watch the video!</small></span>
+      </button>
       <div class="lessons" id="lesson-list"></div>
     </section>
 
@@ -306,6 +360,29 @@
     <div class="char" id="celebrate-char" aria-hidden="true">🧱</div>
     <div class="bubble" id="cheer">Well done reaching your goal!</div>
     <button class="btn green" type="button" id="close-celebrate">Hooray! 🎉</button>
+  </div>
+
+  <!-- SUPERSAVING SUPERHERO VIDEO MODAL -->
+  <div class="backdrop" id="hero-modal" aria-hidden="true">
+    <div class="modal hero-modal" role="dialog" aria-modal="true" aria-labelledby="hero-title">
+      <h2 id="hero-title">🦸 Saving Tips with Supersaving Superhero</h2>
+      <div class="stage" id="hero-stage">
+        <video id="hero-video" controls preload="none" hidden aria-label="Supersaving Superhero talking about saving"></video>
+        <div id="hero-anim" style="display:contents">
+          <span class="scene-no" id="hero-scene-no" aria-hidden="true"></span>
+          <div class="sh-big" data-hero="sh sh-big" aria-hidden="true" style="display:contents"></div>
+          <div class="props" id="hero-props" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="caption" id="hero-caption" role="status" aria-live="polite">Press Play to hear Supersaving Superhero!</div>
+      <div class="vbar" role="progressbar" id="hero-progress" aria-label="Video progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="hero-fill"></span></div>
+      <div class="row vctl" id="hero-controls">
+        <button class="btn green" type="button" id="hero-play" aria-label="Play">▶ Play</button>
+        <button class="btn blue" type="button" id="hero-replay" aria-label="Replay from the start">↺ Replay</button>
+        <button class="btn" type="button" id="hero-mute" aria-pressed="false" aria-label="Mute voice">🔊 Mute</button>
+        <button class="btn pink" type="button" id="hero-close" aria-label="Close video">✖ Close</button>
+      </div>
+    </div>
   </div>
 
   <!-- LESSON MODAL -->
@@ -544,6 +621,7 @@
     }
     function closeModal(id) {
       const m = $(id);
+      if (id === 'hero-modal') { heroPause(); $('hero-video').pause(); }
       m.classList.remove('open');
       m.setAttribute('aria-hidden', 'true');
       if (lastFocus) lastFocus.focus();
@@ -552,6 +630,18 @@
       b.addEventListener('click', e => { if (e.target === b) closeModal(b.id); });
     });
     document.addEventListener('keydown', e => {
+      if (e.key === 'Tab') {
+        const open = document.querySelector('.backdrop.open .modal');
+        if (open) {
+          const items = [...open.querySelectorAll('button, input, select, video[controls]')].filter(x => !x.hidden && !x.disabled && x.offsetParent !== null);
+          if (items.length) {
+            const first = items[0], last = items[items.length - 1];
+            if (!open.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+            else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
+        }
+      }
       if (e.key === 'Escape') {
         document.querySelectorAll('.backdrop.open').forEach(b => closeModal(b.id));
         if ($('celebrate').classList.contains('open')) closeCelebrate();
@@ -559,6 +649,170 @@
     });
     document.querySelectorAll('[data-close]').forEach(b =>
       b.addEventListener('click', () => closeModal(b.dataset.close)));
+
+
+    /* ── Supersaving Superhero: reusable inline SVG character ── */
+    function heroSVG(cls) {
+      const puffs = [[60,78,34],[100,62,38],[142,78,34],[48,110,30],[152,110,30],[100,108,46]];
+      const outline = puffs.map(([x,y,r]) => '<circle cx="'+x+'" cy="'+y+'" r="'+(r+4)+'" fill="#111"/>').join('');
+      const fluff = puffs.map(([x,y,r]) => '<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="#f0f9ff"/>').join('');
+      return '<svg class="sh '+(cls||'')+'" viewBox="0 0 200 250" role="img" aria-label="Supersaving Superhero, a cloud with arms and legs, a red mask and a red cape" focusable="false">' +
+        '<path d="M60 100 Q100 200 140 100 Q150 215 100 225 Q50 215 60 100Z" fill="#dc2626" stroke="#111" stroke-width="4" stroke-linejoin="round"/>' +
+        '<g stroke="#111" stroke-width="6" stroke-linecap="round" fill="none">' +
+          '<path d="M85 150 L72 215 L55 218"/><path d="M115 150 L128 215 L145 218"/>' +
+          '</g>' +
+        outline + fluff +
+        '<g stroke="#111" stroke-width="6" stroke-linecap="round" fill="none"><path d="M52 128 L24 150 L12 122"/><g class="sh-wave"><path d="M148 128 L176 104 L188 70"/></g></g>' +
+        '<path d="M44 82 Q100 112 156 82 L156 108 Q100 138 44 108Z" fill="#dc2626" stroke="#111" stroke-width="4" stroke-linejoin="round"/>' +
+        '<path d="M84 90 L116 104 M84 104 L116 90" stroke="#dc2626" stroke-width="8" stroke-linecap="round"/>' +
+        '<path d="M84 90 L116 104 M84 104 L116 90" stroke="#111" stroke-width="2" stroke-linecap="round"/>' +
+        '<circle cx="74" cy="96" r="15" fill="#fff" stroke="#111" stroke-width="4"/><circle cx="126" cy="96" r="15" fill="#fff" stroke="#111" stroke-width="4"/>' +
+        '<circle cx="77" cy="97" r="7" fill="#111"/><circle cx="123" cy="97" r="7" fill="#111"/>' +
+        '<circle cx="79" cy="94" r="2.5" fill="#fff"/><circle cx="125" cy="94" r="2.5" fill="#fff"/>' +
+        '<ellipse cx="100" cy="116" rx="4" ry="3" fill="#f59e0b" stroke="#111" stroke-width="2"/>' +
+        '<ellipse class="sh-mouth" cx="100" cy="132" rx="13" ry="9" fill="#7f1d1d" stroke="#111" stroke-width="3"/>' +
+        '</svg>';
+    }
+    document.querySelectorAll('[data-hero]').forEach(el => {
+      el.innerHTML = heroSVG(el.dataset.hero.indexOf('sh-big') > -1 ? 'sh-big bob' : 'sh');
+    });
+
+    /* ── Supersaving Superhero: tips video ── */
+    const HERO_SCENES = [
+      { props: '🦸☁️', text: "Hi! I'm Supersaving Superhero! I'm here to share my super saving tips with you." },
+      { props: '🎯🐷', text: "Tip one: set a goal! Pick something you really want, and work out how many pounds it costs." },
+      { props: '🪙££', text: "Tip two: save a little every time you get pocket money. Even 50p each week really adds up!" },
+      { props: '🤔🛒', text: "Tip three: wait and think before you spend. Is it something you need, or just something you want?" },
+      { props: '🏦🌱', text: "Tip four: keep your savings somewhere safe, like your piggy bank. Then watch your pot grow!" },
+      { props: '🎉🏆', text: "Hooray! When you reach your goal, celebrate! You're a super saver, and I'm proud of you!" }
+    ].map(sc => Object.assign(sc, { dur: Math.max(5, Math.round(sc.text.length / 14)) }));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hero = { idx: 0, t: 0, playing: false, muted: false, timer: null, speaking: false, usingVideo: false, vtt: null };
+    const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+
+    function heroSay() {
+      if (!canSpeak || hero.muted) return;
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(HERO_SCENES[hero.idx].text);
+      u.lang = 'en-GB'; u.rate = 0.95; u.pitch = 1.2;
+      hero.speaking = true;
+      const done = () => { if (hero.utter === u) hero.speaking = false; };
+      u.onend = done; u.onerror = done;
+      hero.utter = u;
+      speechSynthesis.speak(u);
+    }
+    function heroStopSpeech() { hero.utter = null; hero.speaking = false; if (canSpeak) speechSynthesis.cancel(); }
+    function heroShow() {
+      const sc = HERO_SCENES[hero.idx];
+      $('hero-caption').textContent = sc.text;
+      $('hero-props').textContent = sc.props;
+      $('hero-scene-no').textContent = 'Scene ' + (hero.idx + 1) + ' of ' + HERO_SCENES.length;
+      heroProgress();
+    }
+    function heroProgress() {
+      const pct = Math.round(((hero.idx + Math.min(1, hero.t / HERO_SCENES[hero.idx].dur)) / HERO_SCENES.length) * 100);
+      $('hero-fill').style.width = pct + '%';
+      $('hero-progress').setAttribute('aria-valuenow', pct);
+    }
+    function heroTalking(on) {
+      document.querySelectorAll('#hero-modal .sh-big .sh').forEach(s => s.classList.toggle('talking', on));
+    }
+    function heroSetPlayLabel(label) {
+      $('hero-play').textContent = (label === 'Pause' ? '⏸ ' : '▶ ') + label;
+      $('hero-play').setAttribute('aria-label', label);
+    }
+    function heroPause() {
+      hero.playing = false;
+      clearInterval(hero.timer);
+      heroStopSpeech();
+      heroTalking(false);
+      heroSetPlayLabel('Play');
+    }
+    function heroPlay() {
+      if (hero.playing) return;
+      if (hero.idx >= HERO_SCENES.length) { hero.idx = 0; }
+      hero.playing = true;
+      hero.t = 0;
+      heroShow();
+      heroTalking(true);
+      heroSetPlayLabel('Pause');
+      heroSay();
+      hero.timer = setInterval(() => {
+        hero.t += 0.1;
+        heroProgress();
+        const sc = HERO_SCENES[hero.idx];
+        if (hero.t >= sc.dur && !hero.speaking) {
+          if (hero.idx + 1 >= HERO_SCENES.length) {
+            heroPause();
+            hero.idx = HERO_SCENES.length;
+            $('hero-fill').style.width = '100%';
+            $('hero-progress').setAttribute('aria-valuenow', 100);
+            heroSetPlayLabel('Play again');
+            return;
+          }
+          hero.idx++; hero.t = 0; heroShow(); heroSay();
+        }
+      }, 100);
+    }
+    function heroReset() {
+      heroPause();
+      hero.idx = 0; hero.t = 0;
+      heroShow();
+      $('hero-caption').textContent = 'Press Play to hear Supersaving Superhero!';
+      $('hero-fill').style.width = '0%';
+      $('hero-progress').setAttribute('aria-valuenow', 0);
+    }
+    function heroUseAnimation() {
+      hero.usingVideo = false;
+      const v = $('hero-video');
+      v.pause(); v.hidden = true; v.removeAttribute('src');
+      $('hero-anim').style.display = 'contents';
+      $('hero-controls').hidden = false;
+      $('hero-progress').hidden = false;
+      $('hero-caption').hidden = false;
+    }
+    function heroUseVideo() {
+      hero.usingVideo = true;
+      $('hero-video').hidden = false;
+      $('hero-anim').style.display = 'none';
+      $('hero-controls').hidden = false;
+      ['hero-play', 'hero-replay', 'hero-mute'].forEach(id => $(id).hidden = true);
+      $('hero-progress').hidden = true;
+      $('hero-caption').hidden = true;
+    }
+    function heroBuildVTT() {
+      const fmt = n => { const m = Math.floor(n / 60), s = (n % 60).toFixed(3); return '00:' + String(m).padStart(2, '0') + ':' + (s < 10 ? '0' : '') + s; };
+      let t = 0, out = 'WEBVTT\n\n';
+      HERO_SCENES.forEach(sc => { out += fmt(t) + ' --> ' + fmt(t + sc.dur) + '\n' + sc.text + '\n\n'; t += sc.dur; });
+      return URL.createObjectURL(new Blob([out], { type: 'text/vtt' }));
+    }
+    $('open-hero').addEventListener('click', () => {
+      heroUseAnimation();
+      ['hero-play', 'hero-replay', 'hero-mute'].forEach(id => $(id).hidden = false);
+      heroReset();
+      openModal('hero-modal');
+      /* Optional real video: use supersaving-superhero.mp4 if it exists, otherwise keep the generated animation */
+      const v = $('hero-video');
+      v.querySelectorAll('track').forEach(t => t.remove());
+      if (!hero.vtt) hero.vtt = heroBuildVTT();
+      const tr = document.createElement('track');
+      tr.kind = 'captions'; tr.srclang = 'en'; tr.label = 'English'; tr.src = hero.vtt; tr.default = true;
+      v.appendChild(tr);
+      v.onerror = heroUseAnimation;
+      v.onloadeddata = () => { heroReset(); heroUseVideo(); };
+      v.src = 'supersaving-superhero.mp4';
+      v.load();
+    });
+    $('hero-play').addEventListener('click', () => { hero.playing ? heroPause() : heroPlay(); });
+    $('hero-replay').addEventListener('click', () => { heroReset(); heroPlay(); });
+    $('hero-mute').addEventListener('click', () => {
+      hero.muted = !hero.muted;
+      $('hero-mute').setAttribute('aria-pressed', hero.muted);
+      $('hero-mute').setAttribute('aria-label', hero.muted ? 'Unmute voice' : 'Mute voice');
+      $('hero-mute').textContent = hero.muted ? '🔇 Unmute' : '🔊 Mute';
+      if (hero.muted) heroStopSpeech(); else if (hero.playing) heroSay();
+    });
+    $('hero-close').addEventListener('click', () => closeModal('hero-modal'));
 
     /* ── Themes ── */
     $('theme-list').addEventListener('click', e => {
