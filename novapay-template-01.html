@@ -22,13 +22,44 @@
       --radius: 18px;
       --radius-sm: 12px;
       --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --glow: #dbe7ff;
+      --line-strong: #c4d3ee;
+      --surface-alt: #f6f9ff;
+      --track: #e8eef8;
+      --hero: linear-gradient(135deg, #111c53 0%, #1f2f7d 55%, #2c3f99 100%);
+    }
+
+    /* Light themes: each overrides the same tokens (light-default = :root) */
+    :root[data-theme="light-warm"] {
+      --bg: #fbf5ee; --panel: #fffdf9; --ink: #2b1d12; --muted: #7a6755; --line: #ecdcc8;
+      --brand: #d4570f; --brand-soft: #ffeedd; --glow: #ffe3c4; --line-strong: #e8cfae;
+      --surface-alt: #fff6ea; --track: #f3e5d3;
+      --hero: linear-gradient(135deg, #5a2406 0%, #8a3a0c 55%, #b34e12 100%);
+    }
+    :root[data-theme="light-cool"] {
+      --bg: #eef7f9; --panel: #ffffff; --ink: #0b2530; --muted: #52707c; --line: #cfe3ea;
+      --brand: #0b7a9e; --brand-soft: #e0f4fa; --glow: #c9eef7; --line-strong: #b5d6e2;
+      --surface-alt: #f2fafc; --track: #dcecf2;
+      --hero: linear-gradient(135deg, #07303f 0%, #0c4b61 55%, #0f6a85 100%);
+    }
+    :root[data-theme="light-soft-contrast"] {
+      --bg: #f6f6f4; --panel: #fcfcfb; --ink: #1f2430; --muted: #5d6270; --line: #dddcd6;
+      --brand: #4a5bd0; --brand-soft: #ececfa; --glow: #e6e6f4; --line-strong: #cfcdc4;
+      --surface-alt: #f4f4f1; --track: #e4e3dc;
+      --hero: linear-gradient(135deg, #2a2f4a 0%, #3a4170 55%, #4a5390 100%);
+    }
+
+    .theme-picker { display: flex; align-items: center; gap: 8px; font-size: .85rem; color: var(--muted); }
+    .theme-picker select {
+      font: inherit; color: var(--ink); background: var(--panel);
+      border: 1px solid var(--line-strong); border-radius: 10px; padding: 6px 8px; max-width: 100%;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: radial-gradient(1200px 500px at 50% -200px, #dbe7ff 0%, var(--bg) 48%, var(--bg) 100%);
+      background: radial-gradient(1200px 500px at 50% -200px, var(--glow) 0%, var(--bg) 48%, var(--bg) 100%);
       color: var(--ink);
       min-height: 100vh;
       padding: 24px 14px 40px;
@@ -82,7 +113,7 @@
     }
 
     .hero {
-      background: linear-gradient(135deg, #111c53 0%, #1f2f7d 55%, #2c3f99 100%);
+      background: var(--hero);
       color: #fff;
       border-radius: var(--radius);
       padding: 22px;
@@ -147,9 +178,9 @@
     }
 
     .sketch-strip {
-      border: 2px dashed #c4d3ee;
+      border: 2px dashed var(--line-strong);
       border-radius: var(--radius-sm);
-      background: #f9fbff;
+      background: var(--surface-alt);
       padding: 12px;
       margin-bottom: 14px;
       font-family: "Patrick Hand", cursive;
@@ -168,7 +199,7 @@
       border: 1px solid var(--line);
       border-radius: var(--radius-sm);
       padding: 10px;
-      background: #fff;
+      background: var(--panel);
     }
 
     .kid h4 { font-size: .95rem; margin-bottom: 6px; }
@@ -177,7 +208,7 @@
     .progress {
       height: 8px;
       border-radius: 99px;
-      background: #e8eef8;
+      background: var(--track);
       overflow: hidden;
     }
 
@@ -219,9 +250,9 @@
     .freeze {
       text-align: center;
       padding: 12px;
-      border: 2px solid #c9d9f4;
+      border: 2px solid var(--line-strong);
       border-radius: var(--radius-sm);
-      background: #f6f9ff;
+      background: var(--surface-alt);
     }
 
     .freeze .icon {
@@ -312,7 +343,7 @@
 
     .modal {
       width: min(520px, 100%);
-      background: #fff;
+      background: var(--panel);
       border-radius: 16px;
       border: 1px solid var(--line);
       box-shadow: 0 20px 50px rgba(15, 23, 42, .22);
@@ -352,7 +383,7 @@
       font: inherit;
       font-size: .92rem;
       color: var(--ink);
-      background: #fff;
+      background: var(--panel);
     }
 
     .field textarea { min-height: 96px; resize: vertical; }
@@ -417,6 +448,14 @@
   <div class="app">
     <header class="topbar">
       <div class="logo">nova<span>pay</span></div>
+      <label class="theme-picker">Theme
+        <select id="theme-select" aria-label="Light theme">
+          <option value="light-default">Default</option>
+          <option value="light-warm">Warm</option>
+          <option value="light-cool">Cool</option>
+          <option value="light-soft-contrast">Soft contrast</option>
+        </select>
+      </label>
       <div class="user">
         Family Safe Banking
         <div class="avatar">NP</div>
@@ -530,6 +569,21 @@
   </div>
 
   <script>
+    const themeSelect = document.getElementById('theme-select');
+    const THEMES = ['light-default', 'light-warm', 'light-cool', 'light-soft-contrast'];
+    function applyTheme(name) {
+      if (!THEMES.includes(name)) name = 'light-default';
+      document.documentElement.setAttribute('data-theme', name);
+      themeSelect.value = name;
+    }
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem('novapay-light-theme'); } catch (e) {}
+    applyTheme(savedTheme);
+    themeSelect.addEventListener('change', () => {
+      applyTheme(themeSelect.value);
+      try { localStorage.setItem('novapay-light-theme', themeSelect.value); } catch (e) {}
+    });
+
     const freezeBtn = document.getElementById('freeze-btn');
     const freezeStatus = document.getElementById('freeze-status');
     const freezeIcon = document.getElementById('freeze-icon');
