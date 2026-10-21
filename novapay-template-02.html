@@ -3,226 +3,567 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NovaPay — Empty Feature Template</title>
+  <title>NovaPay Kids — Money Fun!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f4f5f9;
+      --c1: #7c3aed;
+      --c2: #ec4899;
+      --c3: #facc15;
+      --c4: #22c55e;
+      --c5: #38bdf8;
+      --bg: #fff7e6;
+      --ink: #2b1b4d;
       --card: #ffffff;
-      --ink: #1a1d29;
-      --text: #374151;
-      --muted: #5b6270;
-      --border: #d8dce6;
-      --accent: #5a50e0;
-      --tint: #eeedfb;
-      --shadow: 0 12px 30px rgba(26, 29, 41, 0.08);
-      --radius: 20px;
+      --radius: 24px;
+      --shadow: 0 8px 0 rgba(43, 27, 77, 0.12);
     }
 
-    * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100%; }
+    /* ── THEMES ── */
+    body[data-theme="blocks"]  { --c1:#e11d48; --c2:#facc15; --c3:#2563eb; --bg:#fff8d6; }
+    body[data-theme="heroes"]  { --c1:#dc2626; --c2:#1d4ed8; --c3:#fbbf24; --bg:#e8f0ff; }
+    body[data-theme="princess"]{ --c1:#db2777; --c2:#a855f7; --c3:#fde047; --bg:#fff0f8; }
+    body[data-theme="dogs"]    { --c1:#b45309; --c2:#f59e0b; --c3:#22c55e; --bg:#fff4e0; }
+    body[data-theme="animals"] { --c1:#16a34a; --c2:#0ea5e9; --c3:#f97316; --bg:#ecfdf0; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: radial-gradient(circle at top, #ffffff 0%, var(--bg) 45%, #edf0f7 100%);
-      color: var(--text);
-      line-height: 1.5;
-      padding: 32px 16px 48px;
+      font-family: 'Nunito', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 16px 12px 110px;
+      transition: background .3s;
     }
 
-    .shell {
-      max-width: 1120px;
-      margin: 0 auto;
+    h1, h2, h3, .big { font-family: 'Baloo 2', 'Nunito', sans-serif; }
+
+    .app { max-width: 760px; margin: 0 auto; display: grid; gap: 16px; }
+
+    button { font-family: inherit; cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 4px solid var(--ink);
+      outline-offset: 3px;
     }
 
-    .hero, .panel {
-      background: var(--card);
-      border: 1px solid rgba(216, 220, 230, 0.9);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+    /* ── HEADER ── */
+    .top {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--card); border-radius: var(--radius);
+      padding: 12px 16px; box-shadow: var(--shadow);
+      border: 3px solid var(--ink);
+    }
+    .logo { font-family: 'Baloo 2'; font-weight: 800; font-size: 1.5rem; color: var(--c1); }
+    .logo span { color: var(--c2); }
+    .parent-btn {
+      border: 3px solid var(--ink); background: var(--c3); color: var(--ink);
+      font-weight: 800; border-radius: 999px; padding: 10px 16px; min-height: 44px;
     }
 
+    /* ── HERO ── */
     .hero {
-      padding: 28px;
-      margin-bottom: 18px;
-      position: relative;
-      overflow: hidden;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      color: #fff; border-radius: var(--radius); padding: 22px;
+      border: 3px solid var(--ink); box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
     }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: auto -80px -80px auto;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: rgba(90, 80, 224, 0.09);
+    .hero .mascot {
+      position: absolute; right: 14px; top: 8px; font-size: 4.2rem;
+      animation: bounce 2s ease-in-out infinite;
     }
+    @keyframes bounce { 50% { transform: translateY(-10px) rotate(6deg); } }
+    @media (prefers-reduced-motion: reduce) { .hero .mascot { animation: none; } }
+    .hero h1 { font-size: 1.6rem; }
+    .hero .label { font-weight: 800; opacity: .95; margin-top: 10px; }
+    .hero .big { font-size: 3rem; font-weight: 800; line-height: 1; }
 
-    .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 10px;
+    /* ── CARDS ── */
+    .card {
+      background: var(--card); border-radius: var(--radius); padding: 18px;
+      border: 3px solid var(--ink); box-shadow: var(--shadow);
     }
+    .card h2 { font-size: 1.35rem; margin-bottom: 10px; color: var(--c1); }
+    .hint { font-weight: 700; margin-bottom: 12px; }
 
-    h1, h2, h3, p { margin: 0; }
-
-    h1 {
-      font-size: clamp(2rem, 4vw, 3.3rem);
-      line-height: 1.05;
-      color: var(--ink);
-      margin-bottom: 12px;
-      max-width: 14ch;
+    .btn {
+      border: 3px solid var(--ink); border-radius: 16px; padding: 12px 16px;
+      font-weight: 800; font-size: 1rem; min-height: 48px;
+      background: var(--c3); color: var(--ink); box-shadow: 0 4px 0 var(--ink);
     }
+    .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+    .btn.green { background: var(--c4); }
+    .btn.blue  { background: var(--c5); }
+    .btn.pink  { background: var(--c2); color: #fff; }
+    .btn.purple{ background: var(--c1); color: #fff; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
 
-    .lede {
-      max-width: 60ch;
-      font-size: 1.05rem;
-      color: var(--text);
-      margin-bottom: 18px;
+    /* ── THEME PICKER ── */
+    .themes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .theme {
+      border: 3px solid var(--ink); background: #fff; border-radius: 18px;
+      padding: 10px 4px; font-weight: 800; font-size: .8rem; min-height: 72px;
+      display: grid; gap: 2px; place-items: center;
     }
+    .theme .e { font-size: 1.8rem; }
+    .theme[aria-pressed="true"] { background: var(--c3); transform: scale(1.06); }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 22px;
+    /* ── GOALS / PROGRESS ── */
+    .bar { height: 24px; background: #eee; border: 3px solid var(--ink); border-radius: 999px; overflow: hidden; }
+    .bar > span {
+      display: block; height: 100%; width: 0;
+      background: repeating-linear-gradient(45deg, var(--c4), var(--c4) 12px, #4ade80 12px, #4ade80 24px);
+      transition: width .5s;
     }
+    .bar.limit > span { background: repeating-linear-gradient(45deg, var(--c5), var(--c5) 12px, #7dd3fc 12px, #7dd3fc 24px); }
+    .bar.limit.warn > span { background: repeating-linear-gradient(45deg, #ef4444, #ef4444 12px, #f87171 12px, #f87171 24px); }
+    .meta { display: flex; justify-content: space-between; font-weight: 800; margin: 8px 0; }
 
-    .stat {
-      background: linear-gradient(180deg, #ffffff 0%, #fafbff 100%);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
+    /* ── LESSONS ── */
+    .lessons { display: grid; gap: 10px; }
+    .lesson {
+      display: flex; gap: 12px; align-items: center; text-align: left; width: 100%;
+      background: #fff; border: 3px solid var(--ink); border-radius: 18px; padding: 12px;
+      min-height: 64px; font-weight: 800; font-size: 1rem; color: var(--ink);
     }
+    .lesson .ico { font-size: 2rem; }
+    .lesson small { display: block; font-weight: 700; opacity: .75; }
+    .lesson .tick { margin-left: auto; font-size: 1.5rem; }
+    .lesson.done { background: #dcfce7; }
 
-    .stat .label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 8px;
+    .stars { font-size: 1.3rem; letter-spacing: 2px; }
+
+    /* ── TRANSACTIONS ── */
+    .tx { display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 2px dashed #d8cdf0; font-weight: 800; }
+    .tx:last-child { border-bottom: 0; }
+    .tx .d { font-size: .8rem; font-weight: 700; opacity: .75; }
+    .plus { color: #15803d; } .minus { color: #b91c1c; }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-around;
+      background: #fff; border-top: 3px solid var(--ink); padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+      z-index: 50;
     }
-
-    .stat .value {
-      font-size: 1rem;
-      color: var(--ink);
-      font-weight: 600;
+    .nav a {
+      text-decoration: none; color: var(--ink); font-weight: 800; font-size: .75rem;
+      display: grid; place-items: center; min-width: 64px; min-height: 48px; border-radius: 14px; padding: 4px;
     }
+    .nav a span { font-size: 1.4rem; }
+    .nav a:focus-visible { outline: 4px solid var(--ink); }
 
-    .panel {
-      padding: 20px;
+    /* ── MODALS ── */
+    .backdrop {
+      position: fixed; inset: 0; background: rgba(43,27,77,.6); display: none;
+      align-items: center; justify-content: center; padding: 14px; z-index: 100;
     }
-
-    .placeholder {
-      border: 2px dashed var(--border);
-      border-radius: 18px;
-      background: linear-gradient(180deg, #fcfcfe 0%, #f7f8fc 100%);
-      min-height: 420px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 24px;
+    .backdrop.open { display: flex; }
+    .modal {
+      background: #fff; border: 3px solid var(--ink); border-radius: var(--radius);
+      width: min(520px, 100%); max-height: 90vh; overflow: auto; padding: 18px;
     }
-
-    .placeholder-inner {
-      max-width: 520px;
+    .modal h2 { color: var(--c1); margin-bottom: 8px; }
+    .field { margin: 12px 0; }
+    .field label { display: block; font-weight: 800; margin-bottom: 6px; }
+    .field input, .field select {
+      width: 100%; border: 3px solid var(--ink); border-radius: 14px; padding: 12px;
+      font: inherit; font-weight: 700; min-height: 48px; background: #fff; color: var(--ink);
     }
+    .quiz-opt { display: block; width: 100%; margin: 8px 0; text-align: left; }
+    .msg { margin-top: 10px; font-weight: 800; padding: 10px; border-radius: 12px; display: none; }
+    .msg.show { display: block; }
+    .msg.ok { background: #dcfce7; color: #14532d; border: 2px solid #15803d; }
+    .msg.bad { background: #fee2e2; color: #7f1d1d; border: 2px solid #b91c1c; }
 
-    .placeholder h2 {
-      color: var(--ink);
-      margin-bottom: 8px;
-      font-size: 1.4rem;
+    .toast {
+      position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%);
+      background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 999px;
+      font-weight: 800; z-index: 200; display: none; max-width: 92vw; text-align: center;
     }
+    .toast.show { display: block; }
 
-    .placeholder p {
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: var(--tint);
-      color: var(--accent);
-      font-weight: 700;
-      border: 1px solid rgba(90, 80, 224, 0.12);
-    }
-
-    .footer-note {
-      margin-top: 14px;
-      font-size: 0.92rem;
-      color: var(--muted);
-    }
-
-    @media (max-width: 720px) {
-      .hero { padding: 22px; }
-      .hero-grid { grid-template-columns: 1fr; }
-      .panel { padding: 16px; }
-      .placeholder { min-height: 320px; }
+    @media (max-width: 520px) {
+      .themes { grid-template-columns: repeat(3, 1fr); }
+      .hero .big { font-size: 2.5rem; }
+      .hero .mascot { font-size: 3.2rem; }
+      .row .btn { flex: 1 1 100%; }
     }
   </style>
 </head>
-<body>
-  <main class="shell">
-    <section class="hero" aria-labelledby="title">
-      <div class="eyebrow">NovaPay feature starter</div>
-      <h1 id="title">Blank canvas for a student-built feature</h1>
-      <p class="lede">
-        This empty template is ready for a new NovaPay idea. Start here when a group is building
-        their own feature from scratch instead of fixing the existing exercise.
-      </p>
-      <div class="hero-grid">
-        <div class="stat">
-          <div class="label">Purpose</div>
-          <div class="value">A clean starting point</div>
-        </div>
-        <div class="stat">
-          <div class="label">Copilot use</div>
-          <div class="value">Ask, plan, build, review</div>
-        </div>
-        <div class="stat">
-          <div class="label">Persona support</div>
-          <div class="value">Designed to pair with the wizard</div>
-        </div>
+<body data-theme="blocks">
+  <div class="app">
+
+    <header class="top">
+      <div class="logo">nova<span>pay</span> kids</div>
+      <button class="parent-btn" id="open-parent" type="button">🔒 Grown-ups</button>
+    </header>
+
+    <section class="hero" id="home" aria-labelledby="hello">
+      <div class="mascot" id="mascot" aria-hidden="true">🧱</div>
+      <h1 id="hello">Hi Sam! 👋</h1>
+      <div class="label">My Money</div>
+      <div class="big" id="balance">£24.50</div>
+    </section>
+
+    <section class="card" id="themes" aria-labelledby="theme-h">
+      <h2 id="theme-h">🎨 Pick your theme!</h2>
+      <div class="themes" id="theme-list">
+        <button class="theme" type="button" data-theme="blocks"   data-emoji="🧱" aria-pressed="true"><span class="e">🧱</span>Blocks</button>
+        <button class="theme" type="button" data-theme="heroes"   data-emoji="🦸" aria-pressed="false"><span class="e">🦸</span>Heroes</button>
+        <button class="theme" type="button" data-theme="princess" data-emoji="👑" aria-pressed="false"><span class="e">👑</span>Princess</button>
+        <button class="theme" type="button" data-theme="dogs"     data-emoji="🐶" aria-pressed="false"><span class="e">🐶</span>Dogs</button>
+        <button class="theme" type="button" data-theme="animals"  data-emoji="🦁" aria-pressed="false"><span class="e">🦁</span>Animals</button>
       </div>
     </section>
 
-    <section class="panel">
-      <div class="placeholder">
-        <div class="placeholder-inner">
-          <h2>Insert your NovaPay feature here</h2>
-          <p>
-            Add a page title, layout, components, interactions, and whatever the students invent.
-            This file stays intentionally empty so the team can create their own experience without
-            having to delete any starter content first.
-          </p>
-          <div class="chips" aria-label="starter ideas">
-            <span class="chip">Dashboard</span>
-            <span class="chip">Savings tool</span>
-            <span class="chip">Payment flow</span>
-            <span class="chip">Support screen</span>
-            <span class="chip">Anything else</span>
-          </div>
-          <p class="footer-note">
-            Tip: pair this page with a persona prompt so Copilot can review the work from a real
-            user’s point of view.
-          </p>
-        </div>
+    <section class="card" id="goals" aria-labelledby="goal-h">
+      <h2 id="goal-h">🎯 My Saving Goal</h2>
+      <p class="hint" id="goal-name">Saving for: Big building set 🧱</p>
+      <div class="bar" role="progressbar" id="goal-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Savings goal progress"><span id="goal-fill"></span></div>
+      <div class="meta"><span id="goal-saved">£0 saved</span><span id="goal-target">Goal £40</span></div>
+      <div class="row">
+        <button class="btn green" type="button" data-save="1">+ £1</button>
+        <button class="btn green" type="button" data-save="5">+ £5</button>
+        <button class="btn blue" type="button" id="open-spend">🛍️ Spend money</button>
       </div>
+      <div class="msg" id="goal-msg" role="status" aria-live="polite"></div>
     </section>
-  </main>
+
+    <section class="card" aria-labelledby="limit-h">
+      <h2 id="limit-h">📅 My Weekly Limit</h2>
+      <p class="hint">Set by your grown-up. You can spend up to this much each week.</p>
+      <div class="bar limit" id="limit-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Weekly spending used"><span id="limit-fill"></span></div>
+      <div class="meta"><span id="limit-used">£0 spent</span><span id="limit-total">Limit £10</span></div>
+    </section>
+
+    <section class="card" id="learn" aria-labelledby="learn-h">
+      <h2 id="learn-h">📚 Money School</h2>
+      <p class="hint">Finish lessons to win stars! ⭐ <span class="stars" id="stars" aria-live="polite">☆☆☆☆</span></p>
+      <div class="lessons" id="lesson-list"></div>
+    </section>
+
+    <section class="card" id="activity" aria-labelledby="act-h">
+      <h2 id="act-h">🧾 My Activity</h2>
+      <div id="tx-list"></div>
+    </section>
+
+  </div>
+
+  <nav class="nav" aria-label="Main">
+    <a href="#home"><span>🏠</span>Home</a>
+    <a href="#goals"><span>🎯</span>Goals</a>
+    <a href="#learn"><span>📚</span>Learn</a>
+    <a href="#themes"><span>🎨</span>Themes</a>
+    <a href="#activity"><span>🧾</span>Activity</a>
+  </nav>
+
+  <!-- LESSON MODAL -->
+  <div class="backdrop" id="lesson-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="lesson-title">
+      <h2 id="lesson-title"></h2>
+      <p id="lesson-body" class="hint"></p>
+      <p><strong id="quiz-q"></strong></p>
+      <div id="quiz-opts"></div>
+      <div class="msg" id="quiz-msg" role="status" aria-live="polite"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn" type="button" id="close-lesson">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPEND MODAL -->
+  <div class="backdrop" id="spend-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="spend-title">
+      <h2 id="spend-title">🛍️ Spend money</h2>
+      <form id="spend-form">
+        <div class="field">
+          <label for="spend-what">What is it for?</label>
+          <input id="spend-what" type="text" placeholder="Sweets, comic, toy..." required />
+        </div>
+        <div class="field">
+          <label for="spend-amt">How much? (£)</label>
+          <input id="spend-amt" type="number" min="0.01" step="0.01" inputmode="decimal" required />
+        </div>
+        <div class="msg" id="spend-msg" role="status" aria-live="polite"></div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" type="button" id="close-spend">Cancel</button>
+          <button class="btn pink" type="submit">Spend it!</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PARENT MODAL -->
+  <div class="backdrop" id="parent-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="parent-title">
+      <h2 id="parent-title">🔒 Parent / Guardian area</h2>
+
+      <form id="pin-form">
+        <p class="hint">Enter the grown-up PIN to continue. (Demo PIN: 1234)</p>
+        <div class="field">
+          <label for="pin">PIN</label>
+          <input id="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" required />
+        </div>
+        <div class="msg" id="pin-msg" role="status" aria-live="polite"></div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" type="button" data-close="parent-modal">Cancel</button>
+          <button class="btn purple" type="submit">Unlock</button>
+        </div>
+      </form>
+
+      <form id="parent-form" hidden>
+        <div class="field">
+          <label for="limit-input">Weekly spending limit (£)</label>
+          <input id="limit-input" type="number" min="0" step="1" inputmode="decimal" required />
+        </div>
+        <div class="field">
+          <label for="allowance-input">Give pocket money / reward (£)</label>
+          <input id="allowance-input" type="number" min="0" step="0.5" inputmode="decimal" value="0" />
+        </div>
+        <div class="field">
+          <label for="goal-input">Savings goal (£)</label>
+          <input id="goal-input" type="number" min="1" step="1" inputmode="decimal" required />
+        </div>
+        <div class="msg" id="parent-msg" role="status" aria-live="polite"></div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" type="button" data-close="parent-modal">Close</button>
+          <button class="btn purple" type="submit">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const state = {
+      balance: 24.5,
+      saved: 0,
+      goal: 40,
+      limit: 10,
+      spentThisWeek: 0,
+      stars: 0,
+      done: {},
+      tx: [
+        { name: 'Pocket money from Mum', amt: 5, date: 'Sunday' },
+        { name: 'Helped wash the car', amt: 3, date: 'Saturday' },
+        { name: 'Comic book', amt: -3.5, date: 'Friday' }
+      ]
+    };
+
+    const LESSONS = [
+      { id: 'what', ico: '💷', title: 'What is money?', sub: '2 min',
+        body: 'Money is what we swap for things we need and want. People earn it by working, and we can spend it, save it or share it.',
+        q: 'What can you do with money?', opts: ['Spend, save or share', 'Only throw it away', 'Nothing at all'], a: 0 },
+      { id: 'bank', ico: '🏦', title: 'What does a bank do?', sub: '3 min',
+        body: 'A bank keeps your money safe. You can put money in, take money out, and the bank can even give you a little extra called interest!',
+        q: 'Why do people use a bank?', opts: ['To keep money safe', 'To buy sweets', 'To play games'], a: 0 },
+      { id: 'save', ico: '🐷', title: 'Saving up', sub: '2 min',
+        body: 'Saving means keeping some money for later. Set a goal, add a little each week, and watch your bar grow!',
+        q: 'You want a £40 toy and have £10. What helps?', opts: ['Save a bit each week', 'Spend it all today', 'Forget about it'], a: 0 },
+      { id: 'need', ico: '🤔', title: 'Needs vs Wants', sub: '3 min',
+        body: 'Needs are things like food and a warm coat. Wants are fun extras like toys and treats. Think about needs first!',
+        q: 'Which one is a NEED?', opts: ['A warm coat', 'A new game', 'Fizzy sweets'], a: 0 },
+      { id: 'safe', ico: '🛡️', title: 'Staying safe with money', sub: '3 min',
+        body: 'Never share your PIN or passwords with friends. If someone asks for your card or PIN, tell a grown-up straight away.',
+        q: 'Who can you tell your PIN to?', opts: ['Nobody except a trusted grown-up', 'Any friend', 'Anyone online'], a: 0 }
+    ];
+
+    const $ = (id) => document.getElementById(id);
+    const money = (n) => (n < 0 ? '−' : '') + '£' + Math.abs(n).toFixed(2);
+    const toastEl = $('toast');
+    let toastTimer;
+
+    function toast(text) {
+      toastEl.textContent = text;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2600);
+    }
+
+    function show(el, text, ok) {
+      el.textContent = text;
+      el.className = 'msg show ' + (ok ? 'ok' : 'bad');
+    }
+
+    function render() {
+      $('balance').textContent = money(state.balance);
+
+      const gp = Math.min(100, Math.round((state.saved / state.goal) * 100));
+      $('goal-fill').style.width = gp + '%';
+      $('goal-bar').setAttribute('aria-valuenow', gp);
+      $('goal-saved').textContent = '£' + state.saved.toFixed(2) + ' saved';
+      $('goal-target').textContent = 'Goal £' + state.goal;
+
+      const lp = state.limit > 0 ? Math.min(100, Math.round((state.spentThisWeek / state.limit) * 100)) : 100;
+      $('limit-fill').style.width = lp + '%';
+      $('limit-bar').setAttribute('aria-valuenow', lp);
+      $('limit-bar').classList.toggle('warn', lp >= 80);
+      $('limit-used').textContent = '£' + state.spentThisWeek.toFixed(2) + ' spent';
+      $('limit-total').textContent = 'Limit £' + state.limit.toFixed(2);
+
+      const n = Object.keys(state.done).length;
+      $('stars').textContent = '⭐'.repeat(n) + '☆'.repeat(LESSONS.length - n);
+      $('stars').setAttribute('aria-label', n + ' of ' + LESSONS.length + ' stars');
+
+      $('tx-list').innerHTML = state.tx.map(t => `
+        <div class="tx">
+          <div>${t.name}<div class="d">${t.date}</div></div>
+          <div class="${t.amt >= 0 ? 'plus' : 'minus'}">${t.amt >= 0 ? '+' : ''}${money(t.amt)}</div>
+        </div>`).join('');
+
+      $('lesson-list').innerHTML = LESSONS.map(l => `
+        <button class="lesson ${state.done[l.id] ? 'done' : ''}" type="button" data-lesson="${l.id}">
+          <span class="ico" aria-hidden="true">${l.ico}</span>
+          <span>${l.title}<small>${l.sub}${state.done[l.id] ? ' · Completed' : ''}</small></span>
+          <span class="tick" aria-hidden="true">${state.done[l.id] ? '✅' : '▶️'}</span>
+        </button>`).join('');
+    }
+
+    function addTx(name, amt) {
+      state.tx.unshift({ name, amt, date: 'Today' });
+      state.tx = state.tx.slice(0, 8);
+    }
+
+    /* ── Modals ── */
+    let lastFocus = null;
+    function openModal(id) {
+      lastFocus = document.activeElement;
+      const m = $(id);
+      m.classList.add('open');
+      m.setAttribute('aria-hidden', 'false');
+      const f = m.querySelector('input:not([hidden]), button');
+      if (f) setTimeout(() => f.focus(), 0);
+    }
+    function closeModal(id) {
+      const m = $(id);
+      m.classList.remove('open');
+      m.setAttribute('aria-hidden', 'true');
+      if (lastFocus) lastFocus.focus();
+    }
+    document.querySelectorAll('.backdrop').forEach(b => {
+      b.addEventListener('click', e => { if (e.target === b) closeModal(b.id); });
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.querySelectorAll('.backdrop.open').forEach(b => closeModal(b.id));
+    });
+    document.querySelectorAll('[data-close]').forEach(b =>
+      b.addEventListener('click', () => closeModal(b.dataset.close)));
+
+    /* ── Themes ── */
+    $('theme-list').addEventListener('click', e => {
+      const btn = e.target.closest('.theme');
+      if (!btn) return;
+      document.body.dataset.theme = btn.dataset.theme;
+      $('mascot').textContent = btn.dataset.emoji;
+      document.querySelectorAll('.theme').forEach(t => t.setAttribute('aria-pressed', t === btn));
+      toast('Theme changed! ' + btn.dataset.emoji);
+    });
+
+    /* ── Saving ── */
+    document.querySelectorAll('[data-save]').forEach(b => b.addEventListener('click', () => {
+      const amt = Number(b.dataset.save);
+      if (amt > state.balance) { show($('goal-msg'), 'Oops! You do not have enough money yet.', false); return; }
+      state.balance -= amt;
+      state.saved += amt;
+      addTx('Saved for my goal', -amt);
+      state.tx[0].saving = true;
+      if (state.saved >= state.goal) show($('goal-msg'), '🎉 You reached your goal! Amazing saving!', true);
+      else show($('goal-msg'), 'Nice! Every little bit helps. 🌟', true);
+      render();
+    }));
+
+    /* ── Spending with weekly limit ── */
+    $('open-spend').addEventListener('click', () => { $('spend-msg').className = 'msg'; openModal('spend-modal'); });
+    $('close-spend').addEventListener('click', () => closeModal('spend-modal'));
+    $('spend-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const what = $('spend-what').value.trim();
+      const amt = parseFloat($('spend-amt').value);
+      const msg = $('spend-msg');
+      if (!what || !(amt > 0)) { show(msg, 'Please add what it is and how much.', false); return; }
+      if (amt > state.balance) { show(msg, 'You do not have enough money for that.', false); return; }
+      if (state.spentThisWeek + amt > state.limit) {
+        const left = Math.max(0, state.limit - state.spentThisWeek);
+        show(msg, 'Over your weekly limit! You have £' + left.toFixed(2) + ' left. Ask a grown-up.', false);
+        return;
+      }
+      state.balance -= amt;
+      state.spentThisWeek += amt;
+      addTx(what, -amt);
+      $('spend-form').reset();
+      closeModal('spend-modal');
+      toast('Spent ' + money(amt) + ' on ' + what);
+      render();
+    });
+
+    /* ── Lessons ── */
+    let currentLesson = null;
+    $('lesson-list').addEventListener('click', e => {
+      const btn = e.target.closest('[data-lesson]');
+      if (!btn) return;
+      currentLesson = LESSONS.find(l => l.id === btn.dataset.lesson);
+      $('lesson-title').textContent = currentLesson.ico + ' ' + currentLesson.title;
+      $('lesson-body').textContent = currentLesson.body;
+      $('quiz-q').textContent = 'Quick quiz: ' + currentLesson.q;
+      $('quiz-msg').className = 'msg';
+      $('quiz-opts').innerHTML = currentLesson.opts.map((o, i) =>
+        `<button class="btn quiz-opt" type="button" data-i="${i}">${o}</button>`).join('');
+      openModal('lesson-modal');
+    });
+    $('quiz-opts').addEventListener('click', e => {
+      const b = e.target.closest('[data-i]');
+      if (!b) return;
+      if (Number(b.dataset.i) === currentLesson.a) {
+        const first = !state.done[currentLesson.id];
+        state.done[currentLesson.id] = true;
+        show($('quiz-msg'), first ? '🎉 Correct! You earned a star!' : '🎉 Correct again!', true);
+        render();
+      } else {
+        show($('quiz-msg'), 'Not quite — read the lesson and try again! 💪', false);
+      }
+    });
+    $('close-lesson').addEventListener('click', () => closeModal('lesson-modal'));
+
+    /* ── Parent area ── */
+    $('open-parent').addEventListener('click', () => {
+      $('pin-form').hidden = false;
+      $('parent-form').hidden = true;
+      $('pin').value = '';
+      $('pin-msg').className = 'msg';
+      openModal('parent-modal');
+    });
+    $('pin-form').addEventListener('submit', e => {
+      e.preventDefault();
+      if ($('pin').value === '1234') {
+        $('pin-form').hidden = true;
+        $('parent-form').hidden = false;
+        $('limit-input').value = state.limit;
+        $('goal-input').value = state.goal;
+        $('parent-msg').className = 'msg';
+        $('limit-input').focus();
+      } else {
+        show($('pin-msg'), 'Wrong PIN. Please ask a grown-up.', false);
+      }
+    });
+    $('parent-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const limit = parseFloat($('limit-input').value);
+      const goal = parseFloat($('goal-input').value);
+      const gift = parseFloat($('allowance-input').value) || 0;
+      if (!(limit >= 0) || !(goal > 0)) { show($('parent-msg'), 'Please enter valid amounts.', false); return; }
+      state.limit = limit;
+      state.goal = goal;
+      if (gift > 0) { state.balance += gift; addTx('Pocket money from grown-up', gift); }
+      $('allowance-input').value = 0;
+      show($('parent-msg'), 'Saved! Weekly limit is now £' + limit.toFixed(2) + '.', true);
+      render();
+    });
+
+    render();
+  </script>
 </body>
 </html>
