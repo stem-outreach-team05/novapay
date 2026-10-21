@@ -3,226 +3,608 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NovaPay — Empty Feature Template</title>
+  <title>NovaPay — Family Banking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f4f5f9;
-      --card: #ffffff;
-      --ink: #1a1d29;
-      --text: #374151;
-      --muted: #5b6270;
-      --border: #d8dce6;
-      --accent: #5a50e0;
-      --tint: #eeedfb;
-      --shadow: 0 12px 30px rgba(26, 29, 41, 0.08);
-      --radius: 20px;
+      --bg: #f3f6fb;
+      --panel: #ffffff;
+      --ink: #0f172a;
+      --muted: #6b7280;
+      --line: #d9e2ef;
+      --brand: #1f4bff;
+      --brand-soft: #eaf0ff;
+      --success: #0ea371;
+      --warning: #f97316;
+      --danger: #dc2626;
+      --radius: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
     }
 
-    * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100%; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: radial-gradient(circle at top, #ffffff 0%, var(--bg) 45%, #edf0f7 100%);
-      color: var(--text);
-      line-height: 1.5;
-      padding: 32px 16px 48px;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(1200px 500px at 50% -200px, #dbe7ff 0%, var(--bg) 48%, var(--bg) 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 24px 14px 40px;
     }
 
-    .shell {
-      max-width: 1120px;
+    .app {
+      max-width: 920px;
       margin: 0 auto;
+      display: grid;
+      gap: 14px;
     }
 
-    .hero, .panel {
-      background: var(--card);
-      border: 1px solid rgba(216, 220, 230, 0.9);
+    .topbar {
+      background: var(--panel);
+      border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--brand);
+    }
+
+    .logo span { color: var(--ink); }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 700;
+      font-size: .78rem;
     }
 
     .hero {
-      padding: 28px;
-      margin-bottom: 18px;
-      position: relative;
-      overflow: hidden;
+      background: linear-gradient(135deg, #111c53 0%, #1f2f7d 55%, #2c3f99 100%);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
     }
 
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: auto -80px -80px auto;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: rgba(90, 80, 224, 0.09);
-    }
-
-    .eyebrow {
+    .hero small {
+      opacity: .75;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: .72rem;
     }
 
-    h1, h2, h3, p { margin: 0; }
-
-    h1 {
-      font-size: clamp(2rem, 4vw, 3.3rem);
-      line-height: 1.05;
-      color: var(--ink);
-      margin-bottom: 12px;
-      max-width: 14ch;
+    .balance {
+      margin-top: 8px;
+      font-size: clamp(1.8rem, 5vw, 2.7rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
     }
 
-    .lede {
-      max-width: 60ch;
-      font-size: 1.05rem;
-      color: var(--text);
-      margin-bottom: 18px;
+    .hero-row {
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,.85);
+      font-size: .9rem;
     }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 22px;
-    }
-
-    .stat {
-      background: linear-gradient(180deg, #ffffff 0%, #fafbff 100%);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-    }
-
-    .stat .label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .stat .value {
-      font-size: 1rem;
-      color: var(--ink);
+    .pill {
+      border: 1px solid rgba(255,255,255,.3);
+      background: rgba(255,255,255,.12);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: .78rem;
       font-weight: 600;
     }
 
-    .panel {
-      padding: 20px;
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 14px;
     }
 
-    .placeholder {
-      border: 2px dashed var(--border);
-      border-radius: 18px;
-      background: linear-gradient(180deg, #fcfcfe 0%, #f7f8fc 100%);
-      min-height: 420px;
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .title {
+      font-size: .76rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .sketch-strip {
+      border: 2px dashed #c4d3ee;
+      border-radius: var(--radius-sm);
+      background: #f9fbff;
+      padding: 12px;
+      margin-bottom: 14px;
+      font-family: "Patrick Hand", cursive;
+      color: #17315f;
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+
+    .family-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .kid {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      background: #fff;
+    }
+
+    .kid h4 { font-size: .95rem; margin-bottom: 6px; }
+    .kid p { color: var(--muted); font-size: .85rem; margin-bottom: 8px; }
+
+    .progress {
+      height: 8px;
+      border-radius: 99px;
+      background: #e8eef8;
+      overflow: hidden;
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, #31b6ff, #1f4bff);
+      width: 68%;
+    }
+
+    .money-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: .86rem;
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+    }
+
+    .btn:hover { filter: brightness(0.98); }
+    .btn:active { transform: translateY(1px); }
+    .btn:focus-visible {
+      outline: 3px solid rgba(31, 75, 255, 0.35);
+      outline-offset: 2px;
+    }
+
+    .btn-primary { background: var(--brand); color: white; }
+    .btn-soft { background: var(--brand-soft); color: var(--brand); }
+    .btn-danger { background: #fee2e2; color: var(--danger); }
+
+    .freeze {
+      text-align: center;
+      padding: 12px;
+      border: 2px solid #c9d9f4;
+      border-radius: var(--radius-sm);
+      background: #f6f9ff;
+    }
+
+    .freeze .icon {
+      width: 82px;
+      height: 82px;
+      margin: 6px auto 10px;
+      border-radius: 16px;
+      border: 2px dashed #99b8f3;
       display: grid;
       place-items: center;
-      text-align: center;
-      padding: 24px;
+      font-size: 1.9rem;
+      color: #3f69c8;
+      background: white;
     }
 
-    .placeholder-inner {
-      max-width: 520px;
-    }
+    .freeze p { color: var(--muted); font-size: .9rem; margin-bottom: 10px; }
 
-    .placeholder h2 {
-      color: var(--ink);
-      margin-bottom: 8px;
-      font-size: 1.4rem;
-    }
-
-    .placeholder p {
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: var(--tint);
-      color: var(--accent);
+    .status {
+      margin-top: 10px;
+      border-radius: 10px;
+      padding: 10px;
       font-weight: 700;
-      border: 1px solid rgba(90, 80, 224, 0.12);
+      font-size: .86rem;
+      border: 1px solid #bbf7d0;
+      background: #f0fdf4;
+      color: #166534;
     }
 
-    .footer-note {
-      margin-top: 14px;
-      font-size: 0.92rem;
+    .status.frozen {
+      border-color: #fecaca;
+      background: #fef2f2;
+      color: #991b1b;
+    }
+
+    .contact {
+      margin-top: 12px;
+      border: 1px solid #f4c9a8;
+      background: #fff7f0;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+    }
+
+    .contact h4 { font-size: .95rem; margin-bottom: 6px; }
+    .contact p { color: #8a4b1f; font-size: .86rem; margin-bottom: 10px; }
+
+    .contact .btn {
+      width: 100%;
+      background: #ffeddc;
+      color: #b45309;
+      border: 1px solid #fdba74;
+    }
+
+    .tx-list { display: grid; gap: 8px; }
+    .tx {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .tx .name {
+      color: #000;
+      font-weight: 600;
+      font-size: .95rem;
+    }
+
+    .tx .date {
       color: var(--muted);
+      font-size: .78rem;
+      margin-top: 2px;
     }
 
-    @media (max-width: 720px) {
-      .hero { padding: 22px; }
-      .hero-grid { grid-template-columns: 1fr; }
-      .panel { padding: 16px; }
-      .placeholder { min-height: 320px; }
+    .tx .amt.plus { color: var(--success); font-weight: 700; }
+    .tx .amt.minus { color: var(--danger); font-weight: 700; }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, .45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 999;
+    }
+
+    .modal {
+      width: min(520px, 100%);
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, .22);
+      padding: 16px;
+    }
+
+    .modal h3 {
+      margin-bottom: 4px;
+      font-size: 1.1rem;
+      color: var(--ink);
+    }
+
+    .modal p {
+      color: var(--muted);
+      font-size: .9rem;
+      margin-bottom: 12px;
+    }
+
+    .field {
+      margin-bottom: 10px;
+    }
+
+    .field label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 10px;
+      font: inherit;
+      font-size: .92rem;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    .field textarea { min-height: 96px; resize: vertical; }
+
+    .field input:focus-visible,
+    .field textarea:focus-visible {
+      outline: 3px solid rgba(31, 75, 255, 0.25);
+      border-color: var(--brand);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .btn-cancel {
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .btn-submit {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .help-msg {
+      margin-top: 10px;
+      display: none;
+      border: 1px solid #bbf7d0;
+      background: #f0fdf4;
+      color: #166534;
+      border-radius: 10px;
+      padding: 10px;
+      font-weight: 600;
+      font-size: .87rem;
+    }
+
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 14px 10px 24px; }
+      .app { gap: 10px; }
+      .card { padding: 12px; border-radius: 14px; }
+      .hero { padding: 16px; border-radius: 14px; }
+      .topbar { padding: 10px 12px; border-radius: 14px; }
+      .family-grid { grid-template-columns: 1fr; }
+      .btn { width: 100%; min-height: 44px; }
+      .money-actions { flex-direction: column; }
+      .tx { padding: 11px; }
+      .modal { padding: 12px; border-radius: 14px; }
+      .modal-actions { flex-direction: column-reverse; }
+      .modal-actions .btn { width: 100%; }
     }
   </style>
 </head>
 <body>
-  <main class="shell">
-    <section class="hero" aria-labelledby="title">
-      <div class="eyebrow">NovaPay feature starter</div>
-      <h1 id="title">Blank canvas for a student-built feature</h1>
-      <p class="lede">
-        This empty template is ready for a new NovaPay idea. Start here when a group is building
-        their own feature from scratch instead of fixing the existing exercise.
-      </p>
-      <div class="hero-grid">
-        <div class="stat">
-          <div class="label">Purpose</div>
-          <div class="value">A clean starting point</div>
+  <div class="app">
+    <header class="topbar">
+      <div class="logo">nova<span>pay</span></div>
+      <div class="user">
+        Family Safe Banking
+        <div class="avatar">NP</div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <small>Current Balance</small>
+      <div class="balance">£1,250.00</div>
+      <div class="hero-row">
+        <span>Alex Chen · Family Account</span>
+        <span class="pill">•••• 4821</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="title">Family account</div>
+        <div class="sketch-strip">
+          Persona: families, elderly users, and kids who need easy controls and quick card safety help.
         </div>
-        <div class="stat">
-          <div class="label">Copilot use</div>
-          <div class="value">Ask, plan, build, review</div>
+
+        <div class="family-grid">
+          <article class="kid">
+            <h4>Kids Goal: Lego Set</h4>
+            <p>Saved: £85 / £120</p>
+            <div class="progress"><span></span></div>
+            <div class="money-actions">
+              <button class="btn btn-primary" type="button">Add £5</button>
+              <button class="btn btn-soft" type="button">Set pocket money</button>
+            </div>
+          </article>
+
+          <article class="kid">
+            <h4>Parents Controls</h4>
+            <p>Send money, set limits, and approve spending.</p>
+            <div class="money-actions">
+              <button class="btn btn-soft" type="button">Weekly allowance</button>
+              <button class="btn btn-soft" type="button">Spending limits</button>
+            </div>
+          </article>
         </div>
-        <div class="stat">
-          <div class="label">Persona support</div>
-          <div class="value">Designed to pair with the wizard</div>
+      </div>
+
+      <div class="card">
+        <div class="title">Card safety</div>
+        <div class="freeze">
+          <div class="icon" id="freeze-icon" aria-hidden="true">❄️</div>
+          <h4>Freeze Button</h4>
+          <p>If your card is lost or stolen, freeze it instantly.</p>
+          <button class="btn btn-danger" id="freeze-btn" type="button" aria-pressed="false">Freeze Card</button>
+          <div class="status" id="freeze-status" role="status" aria-live="polite">✅ Card is active</div>
+        </div>
+
+        <div class="contact">
+          <h4>Need help ordering a new card?</h4>
+          <p>Quick contact for elderly users or anyone who needs support right now.</p>
+          <button class="btn" id="open-support" type="button">Contact Support</button>
+          <div class="help-msg" id="help-msg" role="status" aria-live="polite"></div>
         </div>
       </div>
     </section>
 
-    <section class="panel">
-      <div class="placeholder">
-        <div class="placeholder-inner">
-          <h2>Insert your NovaPay feature here</h2>
-          <p>
-            Add a page title, layout, components, interactions, and whatever the students invent.
-            This file stays intentionally empty so the team can create their own experience without
-            having to delete any starter content first.
-          </p>
-          <div class="chips" aria-label="starter ideas">
-            <span class="chip">Dashboard</span>
-            <span class="chip">Savings tool</span>
-            <span class="chip">Payment flow</span>
-            <span class="chip">Support screen</span>
-            <span class="chip">Anything else</span>
+    <section class="card">
+      <div class="title">Recent Transactions</div>
+      <div class="tx-list">
+        <div class="tx">
+          <div>
+            <div class="name">Tesco Express</div>
+            <div class="date">Today, 09:14</div>
           </div>
-          <p class="footer-note">
-            Tip: pair this page with a persona prompt so Copilot can review the work from a real
-            user’s point of view.
-          </p>
+          <div class="amt minus">−£14.30</div>
+        </div>
+        <div class="tx">
+          <div>
+            <div class="name">Costa Coffee</div>
+            <div class="date">Today, 08:10</div>
+          </div>
+          <div class="amt minus">−£3.80</div>
+        </div>
+        <div class="tx">
+          <div>
+            <div class="name">Salary — Acme Ltd</div>
+            <div class="date">1 Jul, 08:00</div>
+          </div>
+          <div class="amt plus">+£2,450.00</div>
         </div>
       </div>
     </section>
-  </main>
+  </div>
+
+  <div class="modal-backdrop" id="support-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="support-title">
+      <h3 id="support-title">Contact Support</h3>
+      <p>Tell us what happened and we’ll help with card replacement or account support.</p>
+      <form id="support-form">
+        <div class="field">
+          <label for="support-name">Your name</label>
+          <input id="support-name" name="name" type="text" placeholder="Alex Chen" required />
+        </div>
+        <div class="field">
+          <label for="support-issue">Issue</label>
+          <textarea id="support-issue" name="issue" placeholder="My card was lost and I need a replacement." required></textarea>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-cancel" type="button" id="close-support">Cancel</button>
+          <button class="btn btn-submit" type="submit">Send request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const freezeBtn = document.getElementById('freeze-btn');
+    const freezeStatus = document.getElementById('freeze-status');
+    const freezeIcon = document.getElementById('freeze-icon');
+
+    let isFrozen = false;
+
+    function renderFreezeState() {
+      if (isFrozen) {
+        freezeBtn.textContent = 'Unfreeze Card';
+        freezeBtn.setAttribute('aria-pressed', 'true');
+        freezeStatus.textContent = '🧊 Card is frozen — payments are paused';
+        freezeStatus.classList.add('frozen');
+        freezeIcon.textContent = '🧊';
+      } else {
+        freezeBtn.textContent = 'Freeze Card';
+        freezeBtn.setAttribute('aria-pressed', 'false');
+        freezeStatus.textContent = '✅ Card is active';
+        freezeStatus.classList.remove('frozen');
+        freezeIcon.textContent = '❄️';
+      }
+    }
+
+    freezeBtn.addEventListener('click', () => {
+      isFrozen = !isFrozen;
+      renderFreezeState();
+    });
+
+    const modal = document.getElementById('support-modal');
+    const openSupport = document.getElementById('open-support');
+    const closeSupport = document.getElementById('close-support');
+    const supportForm = document.getElementById('support-form');
+    const helpMsg = document.getElementById('help-msg');
+    const nameInput = document.getElementById('support-name');
+
+    function openModal() {
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+      setTimeout(() => nameInput.focus(), 0);
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      openSupport.focus();
+    }
+
+    openSupport.addEventListener('click', openModal);
+    closeSupport.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        closeModal();
+      }
+    });
+
+    supportForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('support-name').value.trim();
+      const issue = document.getElementById('support-issue').value.trim();
+
+      if (!name || !issue) return;
+
+      helpMsg.style.display = 'block';
+      helpMsg.textContent = `Thanks ${name} — your support request has been sent. A team member will contact you shortly.`;
+
+      supportForm.reset();
+      closeModal();
+    });
+
+    renderFreezeState();
+  </script>
 </body>
 </html>
